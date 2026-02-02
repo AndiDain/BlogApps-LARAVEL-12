@@ -21,9 +21,7 @@
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div class="bg-white px-8 py-10 shadow-xl shadow-slate-200/50 sm:rounded-2xl border border-slate-100">
-                {{ $slot }}
-            </div>
+            {{ $slot }}
         </div>
     </div>
 </body>
