@@ -24,6 +24,54 @@
             {{ $slot }}
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const password = document.getElementById('password');
+            const toggle = document.getElementById('togglePassword');
+
+            if (!password || !toggle) return;
+
+            // Function to update eye visibility based on value
+            function updateEyeVisibility() {
+                if (password.value.length > 0) {
+                    toggle.style.display = 'flex';          // or remove 'hidden' class if using that
+                } else {
+                    toggle.style.display = 'none';
+                    // Optional: reset to hidden password when empty
+                    password.type = 'password';
+                    toggle.querySelector('.eye-closed').classList.remove('hidden');
+                    toggle.querySelector('.eye-open').classList.add('hidden');
+                }
+            }
+
+            // Toggle logic
+            toggle.addEventListener('click', () => {
+                const isPassword = password.type === 'password';
+                password.type = isPassword ? 'text' : 'password';
+
+                toggle.querySelector('.eye-closed').classList.toggle('hidden', !isPassword);
+                toggle.querySelector('.eye-open').classList.toggle('hidden', isPassword);
+            });
+
+            // Show/hide eye when typing or pasting
+            password.addEventListener('input', updateEyeVisibility);
+
+            // Important: also check on focus (in case value was set programmatically or paste happened while blurred)
+            password.addEventListener('focus', updateEyeVisibility);
+
+            // Optional: hide eye when field becomes empty (blur + empty)
+            password.addEventListener('blur', () => {
+                if (password.value.length === 0) {
+                    toggle.style.display = 'none';
+                }
+            });
+
+            // Initial check (if page loads with value somehow)
+            updateEyeVisibility();
+        });
+        </script>
+
 </body>
 
 </html>
